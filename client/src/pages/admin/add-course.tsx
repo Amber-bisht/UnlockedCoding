@@ -294,6 +294,23 @@ export default function AddCoursePage() {
                     )}
                   />
                   
+                  <FormField
+                    control={form.control}
+                    name="enrollmentLink"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Enrollment Link (Optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://example.com/enroll" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Provide a URL where students can enroll in this course (e.g., Udemy, Coursera, etc.)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
                   <div className="flex justify-end">
                     <Button 
                       type="button" 

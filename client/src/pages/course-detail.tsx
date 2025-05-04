@@ -207,7 +207,13 @@ export default function CourseDetail() {
                         ) : null}
                       </div>
                       
-                      {user ? (
+                      {course.enrollmentLink ? (
+                        <Button className="w-full mt-4" asChild>
+                          <a href={course.enrollmentLink} target="_blank" rel="noopener noreferrer">
+                            Enroll on External Site
+                          </a>
+                        </Button>
+                      ) : user ? (
                         enrollment?.enrolled ? (
                           <Button className="w-full mt-4" asChild>
                             <Link href={`/course/${courseId}/learn`}>
