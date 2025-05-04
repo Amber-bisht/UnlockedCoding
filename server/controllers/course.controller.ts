@@ -101,7 +101,7 @@ export const createCourse = async (req: Request, res: Response): Promise<void> =
       return;
     }
     
-    const { title, description, imageUrl, price, duration, level, categoryId } = req.body;
+    const { title, description, imageUrl, price, duration, level, categoryId, enrollmentLink } = req.body;
     
     // Create slug from title
     const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -137,7 +137,8 @@ export const createCourse = async (req: Request, res: Response): Promise<void> =
       categoryId,
       instructorId: req.user._id,
       lessonCount: 0,
-      rating: 0
+      rating: 0,
+      enrollmentLink: enrollmentLink || ''
     });
     
     await course.save();
@@ -163,7 +164,7 @@ export const updateCourse = async (req: Request, res: Response): Promise<void> =
     }
     
     const { id } = req.params;
-    const { title, description, imageUrl, price, duration, level, categoryId } = req.body;
+    const { title, description, imageUrl, price, duration, level, categoryId, enrollmentLink } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({ message: 'Invalid course ID' });
@@ -220,6 +221,7 @@ export const updateCourse = async (req: Request, res: Response): Promise<void> =
         duration: duration || course.duration,
         level: level || course.level,
         categoryId: categoryId || course.categoryId,
+        enrollmentLink: enrollmentLink !== undefined ? enrollmentLink : course.enrollmentLink,
       },
       { new: true }
     )

@@ -14,6 +14,7 @@ export interface ICourse extends Document {
   instructorId: mongoose.Types.ObjectId;
   lessonCount: number;
   rating: number;
+  enrollmentLink: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -77,6 +78,10 @@ const courseSchema = new Schema<ICourse>({
     default: 0,
     min: 0,
     max: 5
+  },
+  enrollmentLink: {
+    type: String,
+    default: ''
   },
   createdAt: { 
     type: Date, 

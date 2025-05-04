@@ -39,6 +39,7 @@ const formSchema = z.object({
   duration: z.coerce.number().min(1, "Duration must be at least 1 hour"),
   level: z.string().min(1, "Please select a level"),
   categoryId: z.string().min(1, "Please select a category"),
+  enrollmentLink: z.string().optional(),
 });
 
 const levels = [
@@ -69,6 +70,7 @@ export default function AddCoursePage() {
       duration: 1,
       level: "",
       categoryId: "",
+      enrollmentLink: "",
     },
   });
 
