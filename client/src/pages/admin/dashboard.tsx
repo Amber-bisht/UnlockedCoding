@@ -26,6 +26,8 @@ import {
   BarChart,
   Shield,
   AlertTriangle,
+  PlusCircle,
+  Bell,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -200,6 +202,10 @@ export default function AdminDashboard() {
                 <Bookmark className="h-4 w-4 mr-2" />
                 Courses
               </TabsTrigger>
+              <TabsTrigger value="notifications">
+                <Bell className="h-4 w-4 mr-2" />
+                Notifications
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview" className="space-y-4">
@@ -222,11 +228,41 @@ export default function AdminDashboard() {
                   </Button>
                   
                   <Button asChild variant="outline" className="h-auto p-4 justify-start">
+                    <Link href="/admin/add-category">
+                      <PlusCircle className="h-5 w-5 mr-2" />
+                      <div className="text-left">
+                        <p className="font-medium">Add Category</p>
+                        <p className="text-muted-foreground text-xs">Create a new course category</p>
+                      </div>
+                    </Link>
+                  </Button>
+                  
+                  <Button asChild variant="outline" className="h-auto p-4 justify-start">
                     <Link href="/admin/courses">
                       <Bookmark className="h-5 w-5 mr-2" />
                       <div className="text-left">
                         <p className="font-medium">Manage Courses</p>
                         <p className="text-muted-foreground text-xs">Create and edit course content</p>
+                      </div>
+                    </Link>
+                  </Button>
+                  
+                  <Button asChild variant="outline" className="h-auto p-4 justify-start">
+                    <Link href="/admin/add-course">
+                      <PlusCircle className="h-5 w-5 mr-2" />
+                      <div className="text-left">
+                        <p className="font-medium">Add Course</p>
+                        <p className="text-muted-foreground text-xs">Create a new course</p>
+                      </div>
+                    </Link>
+                  </Button>
+                  
+                  <Button asChild variant="outline" className="h-auto p-4 justify-start">
+                    <Link href="/admin/send-notification">
+                      <Bell className="h-5 w-5 mr-2" />
+                      <div className="text-left">
+                        <p className="font-medium">Send Notification</p>
+                        <p className="text-muted-foreground text-xs">Notify users about updates</p>
                       </div>
                     </Link>
                   </Button>
@@ -261,6 +297,10 @@ export default function AdminDashboard() {
                     <li className="flex items-center">
                       <Bookmark className="h-4 w-4 mr-2 text-primary" />
                       <span>Courses - Add new courses, lessons, and manage content</span>
+                    </li>
+                    <li className="flex items-center">
+                      <Bell className="h-4 w-4 mr-2 text-primary" />
+                      <span>Notifications - Send important updates to platform users</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -307,6 +347,29 @@ export default function AdminDashboard() {
                   <Button asChild>
                     <Link href="/admin/courses">
                       Go to Course Management
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="notifications" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Notifications</CardTitle>
+                  <CardDescription>
+                    Send updates to your platform users
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center justify-center py-6">
+                  <Bell className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Send Notifications</h3>
+                  <p className="text-muted-foreground text-center max-w-md mb-6">
+                    Create and send important announcements, updates, and information to all users on your platform.
+                  </p>
+                  <Button asChild>
+                    <Link href="/admin/send-notification">
+                      Create New Notification
                     </Link>
                   </Button>
                 </CardContent>
