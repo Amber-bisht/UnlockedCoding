@@ -5,6 +5,7 @@ import categoryRoutes from './category.routes';
 import courseRoutes from './course.routes';
 import lessonRoutes from './lesson.routes';
 import adminRoutes from './admin.routes';
+import notificationRoutes from './notification.routes';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use('/api/categories', categoryRoutes);
 router.use('/api/courses', courseRoutes);
 router.use('/api', lessonRoutes); // Using /api as base since lesson routes have complex paths
 router.use('/api', adminRoutes); // Admin routes for dashboard functionality
+router.use('/api', notificationRoutes); // Notification routes
 
 export default router;

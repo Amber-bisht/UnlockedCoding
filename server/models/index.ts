@@ -5,6 +5,7 @@ import Course from './Course';
 import Lesson from './Lesson';
 import Enrollment from './Enrollment';
 import Review from './Review';
+import Notification from './Notification';
 
 export {
   User,
@@ -13,5 +14,6 @@ export {
   Course,
   Lesson,
   Enrollment,
-  Review
+  Review,
+  Notification
 };
