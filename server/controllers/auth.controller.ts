@@ -43,6 +43,20 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     await user.save();
 
+    // Format user response
+    const userObj = user.toObject();
+    delete userObj.password;
+    
+    const cleanUser = {
+      id: userObj._id.toString(),
+      username: userObj.username,
+      email: userObj.email,
+      isAdmin: userObj.isAdmin,
+      hasCompletedProfile: userObj.hasCompletedProfile,
+      createdAt: userObj.createdAt,
+      updatedAt: userObj.updatedAt
+    };
+
     // Create session
     if (req.login) {
       req.login(user, (err) => {
@@ -51,16 +65,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
           res.status(500).json({ message: 'Error logging in after registration' });
           return;
         }
-        // Return user without password
-        const userResponse = user.toObject();
-        delete userResponse.password;
-        res.status(201).json(userResponse);
+        res.status(201).json(cleanUser);
       });
     } else {
       // Return user without password if req.login is not available
-      const userResponse = user.toObject();
-      delete userResponse.password;
-      res.status(201).json(userResponse);
+      res.status(201).json(cleanUser);
     }
   } catch (error) {
     logger.error(`Registration error: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -87,6 +96,21 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Format user response
+    const userObj = user.toObject();
+    delete userObj.password;
+    
+    const cleanUser = {
+      id: userObj._id.toString(),
+      username: userObj.username,
+      email: userObj.email,
+      isAdmin: userObj.isAdmin,
+      hasCompletedProfile: userObj.hasCompletedProfile,
+      createdAt: userObj.createdAt,
+      updatedAt: userObj.updatedAt,
+      profile: userObj.profile
+    };
+
     // Create session
     if (req.login) {
       req.login(user, (err) => {
@@ -95,16 +119,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
           res.status(500).json({ message: 'Error logging in' });
           return;
         }
-        // Return user without password
-        const userResponse = user.toObject();
-        delete userResponse.password;
-        res.status(200).json(userResponse);
+        res.status(200).json(cleanUser);
       });
     } else {
-      // Return user without password if req.login is not available
-      const userResponse = user.toObject();
-      delete userResponse.password;
-      res.status(200).json(userResponse);
+      // Return formatted user if req.login is not available
+      res.status(200).json(cleanUser);
     }
   } catch (error) {
     logger.error(`Login error: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -139,9 +158,30 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
 
     // If user is already in req.user, use it
     if (req.user) {
-      const userResponse = { ...req.user };
-      delete userResponse.password;
-      res.status(200).json(userResponse);
+      // Check if req.user is a mongoose document
+      if (typeof req.user.toObject === 'function') {
+        const userObj = req.user.toObject();
+        delete userObj.password;
+        
+        // Clean up mongoose internals
+        const cleanUser = {
+          id: userObj._id.toString(),
+          username: userObj.username,
+          email: userObj.email,
+          isAdmin: userObj.isAdmin,
+          hasCompletedProfile: userObj.hasCompletedProfile,
+          createdAt: userObj.createdAt,
+          updatedAt: userObj.updatedAt,
+          profile: userObj.profile
+        };
+        
+        res.status(200).json(cleanUser);
+      } else {
+        // If not a mongoose document, assume it's already formatted
+        const userResponse = { ...req.user };
+        delete userResponse.password;
+        res.status(200).json(userResponse);
+      }
       return;
     }
 
@@ -153,9 +193,22 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
     }
 
     // Return user without password
-    const userResponse = user.toObject();
-    delete userResponse.password;
-    res.status(200).json(userResponse);
+    const userObj = user.toObject();
+    delete userObj.password;
+    
+    // Clean up mongoose internals
+    const cleanUser = {
+      id: userObj._id.toString(),
+      username: userObj.username,
+      email: userObj.email,
+      isAdmin: userObj.isAdmin,
+      hasCompletedProfile: userObj.hasCompletedProfile,
+      createdAt: userObj.createdAt,
+      updatedAt: userObj.updatedAt,
+      profile: userObj.profile
+    };
+    
+    res.status(200).json(cleanUser);
   } catch (error) {
     logger.error(`Get current user error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     res.status(500).json({ message: 'Error getting current user' });
