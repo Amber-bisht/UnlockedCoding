@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Public routes
 router.get('/', courseController.getAllCourses);
+router.get('/slug/:slug', courseController.getCourseBySlug);
 router.get('/:id', courseController.getCourseById);
 
 // Admin routes

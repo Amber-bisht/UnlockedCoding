@@ -45,6 +45,28 @@ export const getCourseById = async (req: Request, res: Response): Promise<void> 
   }
 };
 
+// Get course by slug
+export const getCourseBySlug = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { slug } = req.params;
+    
+    const course = await Course.findOne({ slug })
+      .populate('category')
+      .populate('instructor', '-password')
+      .populate('lessons');
+    
+    if (!course) {
+      res.status(404).json({ message: 'Course not found' });
+      return;
+    }
+    
+    res.status(200).json(course);
+  } catch (error) {
+    logger.error(`Get course by slug error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    res.status(500).json({ message: 'Error fetching course' });
+  }
+};
+
 // Get courses by category slug
 export const getCoursesByCategorySlug = async (req: Request, res: Response): Promise<void> => {
   try {
