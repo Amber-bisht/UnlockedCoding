@@ -25,7 +25,6 @@ const registerSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
-  isAdmin: z.boolean().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -74,7 +73,6 @@ export default function AuthPage() {
       username: "",
       password: "",
       confirmPassword: "",
-      isAdmin: false,
     },
   });
   
@@ -267,23 +265,7 @@ export default function AuthPage() {
                         )}
                       />
                       
-                      <FormField
-                        control={registerForm.control}
-                        name="isAdmin"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-2">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                              <FormLabel>Register as admin</FormLabel>
-                            </div>
-                          </FormItem>
-                        )}
-                      />
+
                       
                       <Button 
                         type="submit" 
