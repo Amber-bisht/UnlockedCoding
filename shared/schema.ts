@@ -189,3 +189,28 @@ export type Review = typeof reviews.$inferSelect & {
   user: User;
 };
 export type InsertReview = z.infer<typeof insertReviewSchema>;
+
+// Contact form
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  telegramUsername: text("telegram_username"),
+  purpose: text("purpose").notNull(),
+  message: text("message").notNull(),
+  isRead: boolean("is_read").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContactSchema = createInsertSchema(contactSubmissions, {
+  name: (schema) => schema.min(2, "Name must be at least 2 characters"),
+  email: (schema) => schema.email("Please provide a valid email address"),
+  purpose: (schema) => schema.refine(
+    (val) => ["become_admin", "share_course", "copyright", "other"].includes(val),
+    "Purpose must be one of: become admin, share course, copyright, or other"
+  ),
+  message: (schema) => schema.min(10, "Message must be at least 10 characters"),
+});
+
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type InsertContactSubmission = z.infer<typeof insertContactSchema>;

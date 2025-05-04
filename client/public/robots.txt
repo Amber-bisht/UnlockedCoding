@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow admin routes
+Disallow: /admin/
+Disallow: /admin/*
+
+# Disallow profile routes
+Disallow: /profile/
+Disallow: /profile/*
+
+# Specify sitemap location
+Sitemap: https://unlockedcoding.com/sitemap.xml

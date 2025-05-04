@@ -51,6 +51,13 @@ export interface IStorage {
   updateReview(id: number, reviewData: Partial<schema.Review>): Promise<schema.Review>;
   deleteReview(id: number): Promise<void>;
   
+  // Contact submissions
+  createContactSubmission(data: schema.InsertContactSubmission): Promise<schema.ContactSubmission>;
+  getContactSubmissions(): Promise<schema.ContactSubmission[]>;
+  getContactSubmissionById(id: number): Promise<schema.ContactSubmission | undefined>;
+  markContactSubmissionAsRead(id: number): Promise<void>;
+  deleteContactSubmission(id: number): Promise<void>;
+  
   // Session store
   sessionStore: session.SessionStore;
 }
@@ -488,6 +495,41 @@ export class DatabaseStorage implements IStorage {
         updatedAt: new Date(),
       })
       .where(eq(schema.courses.id, courseId));
+  }
+  
+  // Contact submissions
+  async createContactSubmission(data: schema.InsertContactSubmission): Promise<schema.ContactSubmission> {
+    const [submission] = await db
+      .insert(schema.contactSubmissions)
+      .values(data)
+      .returning();
+      
+    return submission;
+  }
+  
+  async getContactSubmissions(): Promise<schema.ContactSubmission[]> {
+    return db.query.contactSubmissions.findMany({
+      orderBy: desc(schema.contactSubmissions.createdAt),
+    });
+  }
+  
+  async getContactSubmissionById(id: number): Promise<schema.ContactSubmission | undefined> {
+    return db.query.contactSubmissions.findFirst({
+      where: eq(schema.contactSubmissions.id, id),
+    });
+  }
+  
+  async markContactSubmissionAsRead(id: number): Promise<void> {
+    await db
+      .update(schema.contactSubmissions)
+      .set({
+        isRead: true,
+      })
+      .where(eq(schema.contactSubmissions.id, id));
+  }
+  
+  async deleteContactSubmission(id: number): Promise<void> {
+    await db.delete(schema.contactSubmissions).where(eq(schema.contactSubmissions.id, id));
   }
 }
 

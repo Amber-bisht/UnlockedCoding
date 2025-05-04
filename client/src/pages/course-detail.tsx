@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CourseJsonLd } from "@/components/json-ld";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -128,6 +129,17 @@ export default function CourseDetail() {
   
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Add structured data for SEO */}
+      <CourseJsonLd course={{
+        title: course.title,
+        description: course.description,
+        instructor: course.instructorName || course.instructor?.username,
+        imageUrl: course.imageUrl,
+        price: typeof course.price === 'number' ? course.price : undefined,
+        duration: course.duration,
+        level: course.level,
+        slug: course.slug
+      }} />
       <SiteHeader />
       
       <main className="flex-1">

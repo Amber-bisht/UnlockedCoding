@@ -6,6 +6,7 @@ import courseRoutes from './course.routes';
 import lessonRoutes from './lesson.routes';
 import adminRoutes from './admin.routes';
 import notificationRoutes from './notification.routes';
+import contactRoutes from './contact.routes';
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use('/api/courses', courseRoutes);
 router.use('/api', lessonRoutes); // Using /api as base since lesson routes have complex paths
 router.use('/api', adminRoutes); // Admin routes for dashboard functionality
 router.use('/api', notificationRoutes); // Notification routes
+router.use('/api/contact', contactRoutes); // Contact form submissions
 
 export default router;
