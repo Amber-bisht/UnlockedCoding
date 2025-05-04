@@ -13,6 +13,7 @@ import ProfilePage from "@/pages/profile-page";
 import CategoriesPage from "@/pages/categories-page";
 import CategoryDetail from "@/pages/category-detail";
 import CourseDetail from "@/pages/course-detail";
+import DonatePage from "@/pages/donate";
 import AdminDashboard from "@/pages/admin/dashboard";
 import ManageCategories from "@/pages/admin/manage-categories";
 import ManageCourses from "@/pages/admin/manage-courses";
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/r" component={CategoriesPage} />
       <Route path="/r/:categorySlug" component={CategoryDetail} />
       <Route path="/course/:courseId" component={CourseDetail} />
+      <Route path="/donate" component={DonatePage} />
       <ProtectedRoute path="/admin" component={AdminDashboard} />
       <ProtectedRoute path="/admin/categories" component={ManageCategories} />
       <ProtectedRoute path="/admin/courses" component={ManageCourses} />

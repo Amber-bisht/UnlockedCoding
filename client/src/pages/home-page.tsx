@@ -66,10 +66,10 @@ export default function HomePage() {
             <div className="lg:text-center">
               <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Categories</h2>
               <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-foreground sm:text-4xl">
-                Discover your path
+                Featured Categories
               </p>
               <p className="mt-4 max-w-2xl text-xl text-muted-foreground lg:mx-auto text-balance">
-                Choose from a variety of programming categories to start your learning journey.
+                Explore our top course categories
               </p>
             </div>
 
