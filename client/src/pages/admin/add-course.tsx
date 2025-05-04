@@ -40,6 +40,7 @@ const formSchema = z.object({
   level: z.string().min(1, "Please select a level"),
   categoryId: z.string().min(1, "Please select a category"),
   enrollmentLink: z.string().optional(),
+  instructorName: z.string().optional(),
 });
 
 const levels = [
@@ -71,6 +72,7 @@ export default function AddCoursePage() {
       level: "",
       categoryId: "",
       enrollmentLink: "",
+      instructorName: "",
     },
   });
 
@@ -305,6 +307,23 @@ export default function AddCoursePage() {
                         </FormControl>
                         <FormDescription>
                           Provide a URL where students can enroll in this course (e.g., Udemy, Coursera, etc.)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="instructorName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Instructor/Admin Name (Optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Specify who uploaded this course. Shows on the course page as "Uploaded by: [Name]"
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

@@ -12,6 +12,7 @@ export interface ICourse extends Document {
   level: string;
   categoryId: mongoose.Types.ObjectId;
   instructorId: mongoose.Types.ObjectId;
+  instructorName: string;
   lessonCount: number;
   rating: number;
   enrollmentLink: string;
@@ -68,6 +69,10 @@ const courseSchema = new Schema<ICourse>({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Instructor is required']
+  },
+  instructorName: {
+    type: String,
+    default: 'Admin'
   },
   lessonCount: {
     type: Number,

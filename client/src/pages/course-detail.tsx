@@ -175,11 +175,13 @@ export default function CourseDetail() {
                 <div className="mt-6 flex items-center">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={course.instructor?.profileImageUrl || ""} />
-                    <AvatarFallback>{course.instructor?.username.charAt(0).toUpperCase()}</AvatarFallback>
+                    <AvatarFallback>{(course.instructorName || course.instructor?.username || "A").charAt(0).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div className="ml-3">
-                    <p className="text-sm font-medium">{course.instructor?.fullName || course.instructor?.username}</p>
-                    <p className="text-xs text-muted-foreground">Instructor</p>
+                    <p className="text-sm font-medium">{course.instructorName || course.instructor?.fullName || course.instructor?.username}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {course.instructorName ? "Uploaded by" : "Instructor"}
+                    </p>
                   </div>
                 </div>
               </div>
