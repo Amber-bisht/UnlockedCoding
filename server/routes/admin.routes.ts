@@ -50,7 +50,7 @@ router.get('/admin/enrollments/count', async (req, res) => {
 });
 
 // Get dashboard summary stats
-router.get('/admin/dashboard/stats', isAdmin, async (req, res) => {
+router.get('/admin/dashboard/stats', async (req, res) => {
   try {
     const userCount = await User.countDocuments();
     const courseCount = await Course.countDocuments();
