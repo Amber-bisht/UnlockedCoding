@@ -40,19 +40,19 @@ export default function AdminDashboard() {
   }, [user, navigate]);
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery<number>({
-    queryKey: ["/api/categories/count"],
+    queryKey: ["/api/admin/categories/count"],
   });
 
   const { data: courses, isLoading: isLoadingCourses } = useQuery<number>({
-    queryKey: ["/api/courses/count"],
+    queryKey: ["/api/admin/courses/count"],
   });
 
   const { data: users, isLoading: isLoadingUsers } = useQuery<number>({
-    queryKey: ["/api/users/count"],
+    queryKey: ["/api/admin/users/count"],
   });
 
   const { data: enrollments, isLoading: isLoadingEnrollments } = useQuery<number>({
-    queryKey: ["/api/enrollments/count"],
+    queryKey: ["/api/admin/enrollments/count"],
   });
 
   if (!user || !user.isAdmin) {

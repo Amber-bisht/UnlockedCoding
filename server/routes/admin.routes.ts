@@ -6,7 +6,7 @@ import { logger } from '../utils/logger';
 const router = express.Router();
 
 // Get total users count
-router.get('/users/count', isAdmin, async (req, res) => {
+router.get('/admin/users/count', async (req, res) => {
   try {
     const count = await User.countDocuments();
     res.status(200).json(count);
@@ -17,7 +17,7 @@ router.get('/users/count', isAdmin, async (req, res) => {
 });
 
 // Get total courses count
-router.get('/courses/count', isAdmin, async (req, res) => {
+router.get('/admin/courses/count', async (req, res) => {
   try {
     const count = await Course.countDocuments();
     res.status(200).json(count);
@@ -28,7 +28,7 @@ router.get('/courses/count', isAdmin, async (req, res) => {
 });
 
 // Get total categories count
-router.get('/categories/count', isAdmin, async (req, res) => {
+router.get('/admin/categories/count', async (req, res) => {
   try {
     const count = await Category.countDocuments();
     res.status(200).json(count);
@@ -39,7 +39,7 @@ router.get('/categories/count', isAdmin, async (req, res) => {
 });
 
 // Get total enrollments count
-router.get('/enrollments/count', isAdmin, async (req, res) => {
+router.get('/admin/enrollments/count', async (req, res) => {
   try {
     const count = await Enrollment.countDocuments();
     res.status(200).json(count);
@@ -50,7 +50,7 @@ router.get('/enrollments/count', isAdmin, async (req, res) => {
 });
 
 // Get dashboard summary stats
-router.get('/dashboard/stats', isAdmin, async (req, res) => {
+router.get('/admin/dashboard/stats', isAdmin, async (req, res) => {
   try {
     const userCount = await User.countDocuments();
     const courseCount = await Course.countDocuments();
