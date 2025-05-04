@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/hooks/use-auth";
+import { WebsiteJsonLd, OrganizationJsonLd } from "@/components/json-ld";
 
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home-page";
@@ -51,6 +52,9 @@ function App() {
         <AuthProvider>
           <Router />
           <Toaster />
+          {/* JSON-LD structured data for improved SEO */}
+          <WebsiteJsonLd />
+          <OrganizationJsonLd />
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
