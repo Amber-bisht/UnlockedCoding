@@ -16,6 +16,9 @@ import CourseDetail from "@/pages/course-detail";
 import AdminDashboard from "@/pages/admin/dashboard";
 import ManageCategories from "@/pages/admin/manage-categories";
 import ManageCourses from "@/pages/admin/manage-courses";
+import AddCategory from "@/pages/admin/add-category";
+import AddCourse from "@/pages/admin/add-course";
+import SendNotification from "@/pages/admin/send-notification";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
@@ -31,6 +34,9 @@ function Router() {
       <ProtectedRoute path="/admin" component={AdminDashboard} />
       <ProtectedRoute path="/admin/categories" component={ManageCategories} />
       <ProtectedRoute path="/admin/courses" component={ManageCourses} />
+      <ProtectedRoute path="/admin/add-category" component={AddCategory} />
+      <ProtectedRoute path="/admin/add-course" component={AddCourse} />
+      <ProtectedRoute path="/admin/send-notification" component={SendNotification} />
       <Route component={NotFound} />
     </Switch>
   );
