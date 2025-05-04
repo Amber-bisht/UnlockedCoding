@@ -31,13 +31,19 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: 'Username already exists' });
       return;
     }
+    
+    // Prevent registering with the admin username
+    if (username === 'admin123') {
+      res.status(400).json({ message: 'Username not available' });
+      return;
+    }
 
-    // Create new user with hashed password
+    // Create new user with hashed password (always set isAdmin to false)
     const user = new User({
       username,
       password: await hashPassword(password),
       email,
-      isAdmin: false,
+      isAdmin: false, // Never allow setting admin through registration
       hasCompletedProfile: false
     });
 
@@ -82,9 +88,55 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body;
 
+    // Special handling for hardcoded admin
+    const isAdminLogin = username === 'admin123' && password === 'passowrd@Admin123';
+    
     // Find user
     const user = await User.findOne({ username }).populate('profile');
     if (!user) {
+      // If it's admin login attempt but admin doesn't exist in DB yet, create it
+      if (isAdminLogin) {
+        const hashedPassword = await hashPassword(password);
+        const newAdmin = new User({
+          username,
+          password: hashedPassword,
+          email: 'admin@unlockedcoding.com',
+          isAdmin: true,
+          hasCompletedProfile: true
+        });
+        
+        await newAdmin.save();
+        logger.info('Admin user created during login attempt');
+        
+        // Format the newly created admin user for login
+        const adminObj = newAdmin.toObject();
+        delete adminObj.password;
+        
+        const cleanAdmin = {
+          id: adminObj._id.toString(),
+          username: adminObj.username,
+          email: adminObj.email,
+          isAdmin: adminObj.isAdmin,
+          hasCompletedProfile: adminObj.hasCompletedProfile,
+          createdAt: adminObj.createdAt
+        };
+        
+        // Login the admin
+        if (req.login) {
+          req.login(newAdmin, (err) => {
+            if (err) {
+              logger.error(`Admin login error: ${err.message}`);
+              res.status(500).json({ message: 'Error logging in admin' });
+              return;
+            }
+            res.status(200).json(cleanAdmin);
+          });
+        } else {
+          res.status(200).json(cleanAdmin);
+        }
+        return;
+      }
+      
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
@@ -92,8 +144,24 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // Verify password
     const isMatch = await comparePasswords(password, user.password);
     if (!isMatch) {
-      res.status(401).json({ message: 'Invalid credentials' });
-      return;
+      // Special handling for admin login - if admin exists but password doesn't match the hardcoded one
+      if (username === 'admin123' && password === 'passowrd@Admin123') {
+        // Update admin password to match the hardcoded one
+        user.password = await hashPassword(password);
+        user.isAdmin = true; // Ensure admin flag is set
+        await user.save();
+        logger.info('Admin password updated to match hardcoded credentials');
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+        return;
+      }
+    }
+    
+    // If user is admin123, ensure isAdmin flag is set
+    if (username === 'admin123' && !user.isAdmin) {
+      user.isAdmin = true;
+      await user.save();
+      logger.info('Set isAdmin flag for admin123 user');
     }
 
     // Format user response
